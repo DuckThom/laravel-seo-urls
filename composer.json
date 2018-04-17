@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "illuminate/support": "^5.5"
+        "illuminate/support": "^5.5",
+        "illuminate/database": "^5.5"
     },
     "autoload": {
         "psr-4": {
@@ -20,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Luna\\Seourls\\SeoUrlServiceProvider"
+                "Luna\\SeoUrls\\SeoUrlServiceProvider"
             ]
         }
     }
