@@ -1,0 +1,27 @@
+{
+    "name": "luna/laravel-seo-urls",
+    "description": "Create SEO friendly urls/routes",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Wiringa",
+            "email": "thomas.wiringa@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Luna\\SeoUrls\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Luna\\Seourls\\SeoUrlServiceProvider"
+            ]
+        }
+    }
+}
