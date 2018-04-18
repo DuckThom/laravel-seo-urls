@@ -2,10 +2,22 @@
 
 namespace Luna\SeoUrls;
 
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Seo router.
+ *
+ * @package     Luna\SeoUrls
+ * @author      Thomas Wiringa  <thomas.wiringa@gmail.com>
+ */
 class SeoRouter extends Router
 {
+    /**
+     * @var Route
+     */
     protected $route;
 
     /**
@@ -14,12 +26,11 @@ class SeoRouter extends Router
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Routing\Route
      */
-    protected function findRoute($request)
+    protected function findRoute($request): Route
     {
         if (! $this->route) {
             $this->route = $this->routes->match($request);
         }
-        dd($this->route);
 
         $this->current = $this->route;
 
@@ -28,7 +39,13 @@ class SeoRouter extends Router
         return $this->route;
     }
 
-    public function setRoute($route)
+    /**
+     * Override the route.
+     *
+     * @param  Route  $route
+     * @return $this
+     */
+    public function setRoute(Route $route): SeoRouter
     {
         $this->route = $route;
 

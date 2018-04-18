@@ -17,12 +17,5 @@
         "psr-4": {
             "Luna\\SeoUrls\\": "src/"
         }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Luna\\SeoUrls\\SeoUrlServiceProvider"
-            ]
-        }
     }
 }

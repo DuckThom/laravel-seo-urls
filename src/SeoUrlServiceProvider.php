@@ -2,14 +2,12 @@
 
 namespace Luna\SeoUrls;
 
+use App\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Routing\RouteCompiler;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\RouteCompiler;
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Routing\CompiledRoute;
 
 /**
  * Seo url service provider.
@@ -19,7 +17,12 @@ use Symfony\Component\Routing\CompiledRoute;
  */
 class SeoUrlServiceProvider extends ServiceProvider
 {
-    public function register()
+    /**
+     * Register the new SEO router.
+     *
+     * @return void
+     */
+    public function register(): void
     {
         $this->app->singleton('router', function ($app) {
             return new SeoRouter($app['events'], $app);
@@ -44,9 +47,9 @@ class SeoUrlServiceProvider extends ServiceProvider
             if (($seoUrl = $this->isSeoUrl($requestPath)) === null) {
                 return;
             }
-        } catch (\Exception $e) {
-            dd($e);
+        } catch (\Illuminate\Database\QueryException $e) {
             // Prevent crashes if the table has not been created yet
+            \Log::warning($e->getMessage());
 
             return;
         }
@@ -78,17 +81,15 @@ class SeoUrlServiceProvider extends ServiceProvider
             $request = request()->duplicate(null, null, null, null, null, $server->all());
 
             /** @var RouteCollection $routes */
-            $routes = Route::getRoutes();
+            $routes = $this->app['router']->getRoutes();
             $route = $routes->match($request);
 
             if (! $route) {
                 return;
             }
 
-//            $routeClone = clone $route;
-//            $routeClone->setUri($sourcePath == '/' ? '/' : ltrim($sourcePath, '/'));
-
-            \Route::setRoute($route);
+            // Set the active route, so Laravel doesnt do a lookup again
+            $this->app['router']->setRoute($route);
         }
     }
 
