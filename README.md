@@ -22,7 +22,7 @@ Add the following code to app/Http/Kernel.php
         $this->router = $this->app->make('router');
 
         foreach ($this->routeMiddleware as $key => $middleware) {
-            $this->router->middleware($key, $middleware);
+            $this->router->aliasMiddleware($key, $middleware);
         }
 
         foreach ($this->middlewareGroups as $key => $middleware) {
